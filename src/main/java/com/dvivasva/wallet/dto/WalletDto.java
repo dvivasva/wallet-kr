@@ -1,16 +1,19 @@
 package com.dvivasva.wallet.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.io.Serializable;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WalletDto implements Serializable {
+@Getter
+@Setter
+public class WalletDto {
     private String id;
-    private String cardId;
+    private String numberCard;
+    private String numberPhone;
+    private String imei;
+    private String document;
+    private String email;
+    private int status; // used for blocking
 }
