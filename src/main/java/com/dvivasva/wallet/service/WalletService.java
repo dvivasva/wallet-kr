@@ -19,31 +19,31 @@ import reactor.core.publisher.Mono;
 public class WalletService {
 
     private final static Logger logger = LoggerFactory.getLogger(WalletService.class);
-    private final IWalletRepository customerRepository;
+    private final IWalletRepository iWalletRepository;
     private final ReactiveMongoTemplate reactiveMongoTemplate;
 
     public Mono<WalletDto> create(final Mono<WalletDto> entityToDto) {
         return entityToDto.map(WalletUtil::dtoToEntity)
-                .flatMap(customerRepository::save)
+                .flatMap(iWalletRepository::save)
                 .map(WalletUtil::entityToDto);
 
     }
 
     public Flux<WalletDto> read() {
-        return customerRepository.findAll().map(WalletUtil::entityToDto);
+        return iWalletRepository.findAll().map(WalletUtil::entityToDto);
     }
 
     public Mono<WalletDto> update(
             final Mono<WalletDto> customerDtoMono, final String id) {
-        return customerRepository.findById(id)
+        return iWalletRepository.findById(id)
                 .flatMap(p -> customerDtoMono.map(WalletUtil::dtoToEntity)
                         .doOnNext(e -> e.setId(id)))
-                .flatMap(customerRepository::save)
+                .flatMap(iWalletRepository::save)
                 .map(WalletUtil::entityToDto);
     }
 
     public Mono<Void> delete(final String id) {
-        return customerRepository.deleteById(id);
+        return iWalletRepository.deleteById(id);
     }
 
 
@@ -56,7 +56,7 @@ public class WalletService {
     }
 
     public Mono<WalletDto> findById(final String id) {
-        return customerRepository.findById(id).map(WalletUtil::entityToDto);
+        return iWalletRepository.findById(id).map(WalletUtil::entityToDto);
     }
 
 

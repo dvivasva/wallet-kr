@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 //@RedisHash("Wallet")
 @Document("wallet-kr")
-public class Wallet implements Serializable {
+public class Wallet{
     @Id
     private String id;
     private String numberCard;
