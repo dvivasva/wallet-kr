@@ -1,9 +1,10 @@
 package com.dvivasva.wallet.listener;
 
 
-import com.dvivasva.wallet.component.WalletComponent;
+import com.dvivasva.wallet.dto.WalletDto;
 import com.dvivasva.wallet.entity.Wallet;
 import com.dvivasva.wallet.service.KafkaProducer;
+import com.dvivasva.wallet.service.WalletService;
 import com.dvivasva.wallet.util.JsonUtils;
 import com.dvivasva.wallet.util.Topic;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 
@@ -19,7 +21,7 @@ import java.io.IOException;
 public class KafkaConsumer {
 
     private static final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
-    private final WalletComponent walletComponent;
+    private final WalletService walletService;
     private final KafkaProducer kafkaProducer;
 
     /**
@@ -33,10 +35,10 @@ public class KafkaConsumer {
     }
 
     public void createWallet(String param) {
-        var wallet = new Wallet();
+        var wallet = new WalletDto();
         try {
-            wallet = JsonUtils.convertFromJsonToObject(param, Wallet.class);
-            var ins = walletComponent.create(wallet);
+            wallet = JsonUtils.convertFromJsonToObject(param, WalletDto.class);
+            var ins = walletService.create(Mono.just(wallet));
             ins.doOnNext(p -> logger.info("registry success" + p))
                     .subscribe();
 
@@ -44,13 +46,6 @@ public class KafkaConsumer {
             e.printStackTrace();
         }
     }
-
-    /*
-    @KafkaListener(topics = "ins-wallet-json", groupId = "group_json",
-            containerFactory = "walletKafkaListenerFactory")
-    public void consumeJson(Wallet wallet) {
-        logger.info("Consumed JSON Message: " + wallet);
-    }*/
 
 
     //================================
@@ -70,7 +65,7 @@ public class KafkaConsumer {
 
     public void sendMessageCard(String param, int index) {
         String newPhone = JsonUtils.removeFirstAndLast(param);
-        var find = walletComponent.findByNumberPhone(newPhone);
+        var find = walletService.findByNumberPhone(newPhone);
         find.doOnNext(p -> {
             if (index == 0) {
                 kafkaProducer.sendNumberCardOriginToCard(p.getNumberCard());
