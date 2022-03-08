@@ -2,15 +2,13 @@ package com.dvivasva.wallet.repository;
 
 import com.dvivasva.wallet.dto.WalletDto;
 import com.dvivasva.wallet.entity.Wallet;
-import com.dvivasva.wallet.util.WalletUtil;
+import com.dvivasva.wallet.utils.WalletUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.ReactiveHashOperations;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

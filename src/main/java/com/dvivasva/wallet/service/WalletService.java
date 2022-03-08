@@ -3,7 +3,7 @@ package com.dvivasva.wallet.service;
 import com.dvivasva.wallet.dto.WalletDto;
 import com.dvivasva.wallet.entity.Wallet;
 import com.dvivasva.wallet.repository.IWalletRepository;
-import com.dvivasva.wallet.util.WalletUtil;
+import com.dvivasva.wallet.utils.WalletUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -51,8 +53,15 @@ public class WalletService {
         logger.info("inside methode find by number Phone ");
         Query query = new Query();
         query.addCriteria(Criteria.where("numberPhone").is(numberPhone));
-        return reactiveMongoTemplate.findOne(query, Wallet.class).map(WalletUtil::entityToDto);
+        return reactiveMongoTemplate.findOne(query, Wallet.class)
+                .map(WalletUtil::entityToDto);
+    }
 
+    public Mono<WalletDto> findByNumberCard(String numberCard) {
+        logger.info("inside methode find by number card ");
+        Query query = new Query();
+        query.addCriteria(Criteria.where("numberCard").is(numberCard));
+        return reactiveMongoTemplate.findOne(query, Wallet.class).map(WalletUtil::entityToDto);
     }
 
     public Mono<WalletDto> findById(final String id) {

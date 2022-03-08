@@ -3,7 +3,6 @@ package com.dvivasva.wallet.component;
 import com.dvivasva.wallet.dto.WalletDto;
 import com.dvivasva.wallet.entity.Wallet;
 import com.dvivasva.wallet.repository.WalletRepository;
-import com.dvivasva.wallet.util.WalletUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;

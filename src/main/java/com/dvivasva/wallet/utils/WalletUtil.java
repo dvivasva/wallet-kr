@@ -1,4 +1,4 @@
-package com.dvivasva.wallet.util;
+package com.dvivasva.wallet.utils;
 
 import com.dvivasva.wallet.dto.WalletDto;
 import com.dvivasva.wallet.entity.Wallet;

@@ -1,4 +1,4 @@
-package com.dvivasva.wallet.util;
+package com.dvivasva.wallet.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
